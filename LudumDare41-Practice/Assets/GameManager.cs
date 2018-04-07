@@ -8,16 +8,24 @@ public class GameManager : MonoBehaviour {
 	//Resources
 	public int wood = 0;
 	public int stone = 0;
-	public int carrots = 1;
-	public int broccoli = 1; 
+	public int carrots = 10;
+	public int broccoli = 10; 
 
 	public int unpicked = 0;
 
+	//Gameplay booleans
+	public bool woodProduction = true;
+	public bool stoneProduction = true;
+
 	//Timers
-	public float timeBeforeGather = 3.0f;
+	public float baseTimeWood = 30f;
+	public float baseTimeStone = 30f;
+	public float timeWood = 30f;
+	public float timeStone = 30f;
 	public float timeToGrow = 5f;
 	private float growTimer = 0f;
-	private float gatherTimer = 0f;
+	private float woodTimer = 0f;
+	private float stoneTimer = 0f;
 
 	//Text
 	public Text statsText;
@@ -37,6 +45,8 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		timeWood = timeWood / broccoli;
+		timeStone = timeStone / carrots;
 
 		HideChoiceBox ();
 
@@ -51,12 +61,7 @@ public class GameManager : MonoBehaviour {
 			//End the Game
 		}
 
-		//Every X seconds, gather resources
-		gatherTimer += Time.deltaTime;
-		if (gatherTimer > timeBeforeGather) {
-			gatherTimer = 0;
-			GatherResources ();
-		}
+		GatherResources ();
 
 		//Every X seconds, grow a new vegetable
 		growTimer += Time.deltaTime;
@@ -68,8 +73,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void GatherResources(){
-		wood += broccoli;
-		stone += carrots;
+		woodTimer += Time.deltaTime;
+		stoneTimer += Time.deltaTime;
+
+		if (woodTimer > timeWood && woodProduction) {
+			woodTimer = 0;
+			wood++;
+		}
+
+		if (stoneTimer > timeStone && stoneProduction) {
+			stoneTimer = 0;
+			stone++;
+		}
 	}
 
 	void GrowVegetable(){
@@ -113,17 +128,44 @@ public class GameManager : MonoBehaviour {
 	public void PickVegetable(string vegetable)
 	{
 		
-		if (vegetable == "broc")
+		if (vegetable == "broc") {
 			broccoli++;
-		if (vegetable == "carrot")
+			timeWood = baseTimeWood / broccoli;
+		}
+
+		if (vegetable == "carrot") {
 			carrots++;
+			timeStone = baseTimeStone / carrots;
+		}	
 
 		unpicked--;
+
+		//play sfx
+		AudioSource audio = gameObject.AddComponent < AudioSource > ();
+		audio.PlayOneShot ((AudioClip)Resources.Load ("veg_pull"));
+
+		//hide choice box and buttons when all vegetables are picked
 		if (unpicked <= 0)
 		{
 			HideChoiceBox();
 		}
 
-	}
+	}//PickVegetable
+
+	public void EatVegetable()
+	{
+		if (carrots == 0 && broccoli > 0)
+			broccoli--;
+		else if (broccoli == 0 && carrots > 0)
+			carrots--;
+		else 
+		{
+			int num = Random.Range (0, 1);
+			if (num == 0)
+				broccoli--;
+			else
+				carrots--;
+		}
+	}//EatVegetable()
 
 }
