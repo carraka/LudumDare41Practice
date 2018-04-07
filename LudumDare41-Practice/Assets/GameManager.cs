@@ -5,27 +5,40 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+	//Resources
 	public int wood = 0;
 	public int stone = 0;
 	public int carrots = 1;
 	public int broccoli = 1; 
 
-	public float timeBeforeGather = 3.0f;
-	public float timeToGrow = 15f;
+	public int unpicked = 0;
 
+	//Timers
+	public float timeBeforeGather = 3.0f;
+	public float timeToGrow = 5f;
 	private float growTimer = 0f;
 	private float gatherTimer = 0f;
 
+	//Text
 	public Text statsText;
 	public Text broccoliText;
 	public Text carrotText;
 	public Text woodText;
 	public Text stoneText;
 
+	//ChoiceBox
+	public Image choiceBox;
+	public Text chooseGrowthText;
+	public Text unpickedText;
+	public Button broccoliButton;
+	public Button carrotButton;
+	public Image broccoliButtonSprite;
+	public Image carrotButtonSprite;
 
 	// Use this for initialization
 	void Start () {
 
+		HideChoiceBox ();
 
 	}
 	
@@ -60,7 +73,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void GrowVegetable(){
-		//grow it!
+		ShowChoiceBox ();
+		unpicked++;
+
 	}
 
 	void UpdateStatText(){
@@ -69,5 +84,46 @@ public class GameManager : MonoBehaviour {
 		carrotText.text = carrots.ToString();
 		woodText.text = wood.ToString();
 		stoneText.text = stone.ToString();
+		unpickedText.text = "Unpicked: " + unpicked.ToString ();
 	}
+
+	void ShowChoiceBox()
+	{
+		choiceBox.enabled = true;
+		chooseGrowthText.enabled = true;
+		broccoliButton.enabled = true;
+		carrotButton.enabled = true;
+		broccoliButtonSprite.enabled = true;
+		carrotButtonSprite.enabled = true;
+		unpickedText.enabled = true;
+
+	}
+
+	void HideChoiceBox()
+	{
+		choiceBox.enabled = false;
+		chooseGrowthText.enabled = false;
+		broccoliButton.enabled = false;
+		carrotButton.enabled = false;
+		broccoliButtonSprite.enabled = false;
+		carrotButtonSprite.enabled = false;
+		unpickedText.enabled = false;
+	}
+
+	public void PickVegetable(string vegetable)
+	{
+		
+		if (vegetable == "broc")
+			broccoli++;
+		if (vegetable == "carrot")
+			carrots++;
+
+		unpicked--;
+		if (unpicked <= 0)
+		{
+			HideChoiceBox();
+		}
+
+	}
+
 }
