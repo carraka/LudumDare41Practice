@@ -149,8 +149,8 @@ public class PlaceTower : MonoBehaviour {
 
 
                     buildCommand = towerPlacementMode.off; //buildStructure(tilePos);
-          
                     previewBuild = null;
+                    GameManager.HideInfoBox();
 
                     // play build sound effect here
                 }
@@ -162,6 +162,7 @@ public class PlaceTower : MonoBehaviour {
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
             {
                 buildCommand = towerPlacementMode.off;
+                GameManager.HideInfoBox();
             }
 
             

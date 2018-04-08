@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class BroccoliButton : MonoBehaviour {
+public class BroccoliButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
 
-	private GameManager GameManager;
+    private GameManager GameManager;
 
 	private Button thisButton;
 
@@ -28,4 +30,15 @@ public class BroccoliButton : MonoBehaviour {
 		GameManager.PickVegetable ("broc");
 
 	}
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        GameManager.UpdateInfoBox("Broccoli");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        GameManager.HideInfoBox();
+    }
+
 }

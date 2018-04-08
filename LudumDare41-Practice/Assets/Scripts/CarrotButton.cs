@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class CarrotButton : MonoBehaviour {
+public class CarrotButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
 
 	private GameManager GameManager;
 
@@ -28,4 +30,15 @@ public class CarrotButton : MonoBehaviour {
 		GameManager.PickVegetable ("carrot");
 
 	}
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        GameManager.UpdateInfoBox("Carrot");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        GameManager.HideInfoBox();
+    }
+
 }
