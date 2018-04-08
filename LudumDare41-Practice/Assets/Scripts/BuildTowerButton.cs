@@ -24,7 +24,7 @@ public class BuildTowerButton : MonoBehaviour {
 	}
 
 	void TaskOnClick(){
-		GameManager.PickVegetable ("build");
-		
-	}
+        GameManager.GetComponent<PlaceTower>().buildCommand = PlaceTower.towerPlacementMode.tower;
+
+    }
 }
