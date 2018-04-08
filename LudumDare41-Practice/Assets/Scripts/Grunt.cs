@@ -50,23 +50,23 @@ public class Grunt : MonoBehaviour {
 				rb.velocity = Vector3.Normalize (target.transform.position - transform.position) * speed;
 				float distance = Vector3.Distance (transform.position, target.transform.position);
 
+				Debug.Log (this.transform.localRotation);
+				Vector3 targ = target.transform.position;
+				targ.z = 0f;
 
+				Vector3 objectPos = transform.position;
+				targ.x = targ.x - objectPos.x;
+				targ.y = targ.y - objectPos.y;
+
+				float angle = Mathf.Atan2 (targ.y, targ.x) * Mathf.Rad2Deg;
+				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle - 90));
+				Debug.Log (this.transform.localRotation);
 
 				if (distance < 20f) {
 					++nextTargetIndex;
 					if (nextTargetIndex < targetList.Length) {
 						target = targetList [nextTargetIndex];
-						Debug.Log (this.transform.localRotation);
-						Vector3 targ = target.transform.position;
-						targ.z = 0f;
 
-						Vector3 objectPos = transform.position;
-						targ.x = targ.x - objectPos.x;
-						targ.y = targ.y - objectPos.y;
-
-						float angle = Mathf.Atan2 (targ.y, targ.x) * Mathf.Rad2Deg;
-						transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle));
-						Debug.Log (this.transform.localRotation);
 					} else {
 						done = true;
 						//velocity goes to 0;
