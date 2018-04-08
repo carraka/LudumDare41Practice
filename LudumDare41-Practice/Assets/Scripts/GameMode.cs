@@ -63,6 +63,7 @@ public class GameMode : MonoBehaviour {
         Vector2 tilePos = getTile(mousePos);
 
         if (buildCommand == towerPlacementMode.off)
+<<<<<<< HEAD
         {
             if (previewBuild != null)
             {
@@ -72,6 +73,17 @@ public class GameMode : MonoBehaviour {
         }
         else
         {
+=======
+        {
+            if (previewBuild != null)
+            {
+                Destroy(previewBuild);
+                previewBuild = null;
+            }
+        }
+        else
+        {
+>>>>>>> master
 
             if (previewBuild == null)
             {
@@ -86,6 +98,7 @@ public class GameMode : MonoBehaviour {
 
                 previewBuild.gameObject.transform.localScale = scaleTower;
             }
+<<<<<<< HEAD
             
             //move sprite to tile x,y            
             Vector3 previewPos = new Vector3(tilePos.x * tileWidth, Camera.main.pixelHeight - tilePos.y * tileHeight - tileHeight);
@@ -100,6 +113,16 @@ public class GameMode : MonoBehaviour {
             previewBuild.transform.position = previewPos;
 
 
+=======
+            //find tile x,y
+            //move sprite to tile x,y
+            Vector3 previewPos = new Vector3(tilePos.x * tileWidth, Camera.main.pixelHeight - tilePos.y * tileHeight - tileHeight);
+            //previewPos = Camera.main.ScreenToWorldPoint(previewPos);
+            previewBuild.transform.position = previewPos;
+
+            if (tilePos.x < 0 || tilePos.x > 13 || tilePos.y < 0 || tilePos.y > 8)
+                return;
+>>>>>>> master
             if ((buildCommand == towerPlacementMode.tower && canvas.GetComponent<MapManager>().tileMap[(int) tilePos.x, (int) tilePos.y]==MapManager.Tile.field) ||
                 (buildCommand == towerPlacementMode.wall  && canvas.GetComponent<MapManager>().tileMap[(int) tilePos.x, (int) tilePos.y] == MapManager.Tile.road))
                 previewBuild.GetComponent<Image>().color = Color.green;
