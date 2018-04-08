@@ -121,4 +121,13 @@ public class PlaceTower : MonoBehaviour {
             }
         }
     }
+
+	//converts x, y position to position in world in relation to camera
+	public Vector3 TiletoWorld(Vector2 tileInput)
+	{
+		Vector3 worldPos = new Vector3(tileInput.x * tileWidth, Camera.main.pixelHeight - tileInput.y * tileHeight - tileHeight);
+
+		return worldPos;
+	}
+
 }

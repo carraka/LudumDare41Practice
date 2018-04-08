@@ -8,26 +8,30 @@ public class Grunt : MonoBehaviour {
 	public float eatTimer = 3f;
 
 	private GameManager GameManager;
+	private PlaceTower PlaceTower;
 	private Canvas canvas;
 
-	public Transform[] targetList;// =new Transform[];
+	//public Transform[] targetList;// =new Transform[];
 	private Transform target;
+
+	public Vector2[] tileTargetList;
+	public Vector2 tileTarget;
+
 	public float speed = 0.1f;
 	public int nextTargetIndex = 0;
 	public bool inRange = false;
 	bool done = false;
 
-	private Quaternion initialRotation;
-
 	// Use this for initialization
 	void Start () {
-		target = targetList[nextTargetIndex];
+		//target = targetList[nextTargetIndex];
+		tileTarget = tileTargetList[nextTargetIndex];
 		this.transform.SetParent (canvas.transform);
-		initialRotation = Quaternion.Euler (new Vector3 (this.transform.localRotation.eulerAngles.x, this.transform.localRotation.eulerAngles.y, this.transform.localRotation.eulerAngles.z));
 	}
 
 	void Awake(){
 		GameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
+		PlaceTower = GameObject.Find ("GameManager").GetComponent<PlaceTower> ();
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas> ();
 	}
 
@@ -46,13 +50,13 @@ public class Grunt : MonoBehaviour {
 	void FixedUpdate() {
 		//Travel toward next target in target list
 		if (!done) {
-			if (target != null) {
+			if (tileTarget != null) {
 				Rigidbody2D rb = GetComponent<Rigidbody2D> ();
-				rb.velocity = Vector3.Normalize (target.transform.position - transform.position) * speed;
-				float distance = Vector3.Distance (transform.position, target.transform.position);
+				rb.velocity = Vector3.Normalize (PlaceTower.TiletoWorld(tileTarget) - transform.position) * speed;
+				float distance = Vector3.Distance (transform.position, PlaceTower.TiletoWorld(tileTarget));
 
 				Debug.Log (this.transform.localRotation);
-				Vector3 targ = target.transform.position;
+				Vector3 targ = PlaceTower.TiletoWorld(tileTarget);
 				targ.z = 0f;
 
 				Vector3 objectPos = transform.position;
@@ -65,13 +69,13 @@ public class Grunt : MonoBehaviour {
 
 				if (distance < 20f) {
 					++nextTargetIndex;
-					if (nextTargetIndex < targetList.Length) {
-						target = targetList [nextTargetIndex];
+					if (nextTargetIndex < tileTargetList.Length) {
+						tileTarget = tileTargetList [nextTargetIndex];
 
 					} else {
 						done = true;
 						//velocity goes to 0;
-						rb.velocity = Vector3.Normalize (target.transform.position - transform.position) * 0f;
+						rb.velocity = Vector3.Normalize (PlaceTower.TiletoWorld(tileTarget) - transform.position) * 0f;
 					}
 
 				}
