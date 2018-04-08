@@ -1,27 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMode : MonoBehaviour {
 
     public GameObject tower;
+    public GameObject wall;
     public Canvas canvas;
-    public bool towerPlacementMode;
+    public enum towerPlacementMode { off, tower, wall };
+    public towerPlacementMode buildCommand;
 
     private float tileWidth;
     private float tileHeight;
-    private GameObject previewTower;
+    private GameObject previewBuild;
+    private MapManager level;
     // Use this for initialization
     void Start () {
         tileWidth = Camera.main.pixelWidth / 16f;
         tileHeight = Camera.main.pixelHeight / 9f;
 
-        previewTower = Instantiate(tower);
-        previewTower.transform.SetParent(canvas.transform, true);
+        previewBuild = null;
 
-        Vector3 scaleTower = new Vector3 (tileWidth/ 100, tileHeight / 100);
+        buildCommand = towerPlacementMode.tower;
 
-        previewTower.gameObject.transform.localScale = scaleTower;
     }
 
     // Update is called once per frame
@@ -51,35 +53,65 @@ public class GameMode : MonoBehaviour {
         return tileLocation;
     }
 
+    void buildStructure(Vector3 tilePos)
+    {
+
+    }
     void OnGUI()
     {
-        Vector3 p = new Vector3();
-        Camera c = Camera.main;
-        /*        Event e = Event.current;
-                Vector2 mousePos = new Vector2();
-
-                // Get the mouse position from Event.
-                // Note that the y position from Event is inverted.
-                mousePos.x = e.mousePosition.x;
-                mousePos.y = c.pixelHeight - e.mousePosition.y;
-        */
-
         Vector2 mousePos = getMousePos();
         Vector2 tilePos = getTile(mousePos);
 
-        if (towerPlacementMode)
+        if (buildCommand == towerPlacementMode.off)
         {
-
-            //find tile x,y
-            //move sprite to tile x,y
-            Vector3 previewPos = new Vector3(tilePos.x * tileWidth, c.pixelHeight - tilePos.y * tileHeight - tileHeight);
-            //previewPos = Camera.main.ScreenToWorldPoint(previewPos);
-            previewTower.transform.position = previewPos;
+            if (previewBuild != null)
+            {
+                Destroy(previewBuild);
+                previewBuild = null;
+            }
         }
         else
         {
-            //hide tower placement preview
-            previewTower.transform.position = new Vector3(-500, -500);
+
+            if (previewBuild == null)
+            {
+                if (buildCommand == towerPlacementMode.tower)
+                    previewBuild = Instantiate(tower);
+                if (buildCommand == towerPlacementMode.wall)
+                    previewBuild = Instantiate(wall);
+
+                previewBuild.transform.SetParent(canvas.transform, true);
+
+                Vector3 scaleTower = new Vector3(tileWidth / 100, tileHeight / 100);
+
+                previewBuild.gameObject.transform.localScale = scaleTower;
+            }
+            //find tile x,y
+            //move sprite to tile x,y
+            Vector3 previewPos = new Vector3(tilePos.x * tileWidth, Camera.main.pixelHeight - tilePos.y * tileHeight - tileHeight);
+            //previewPos = Camera.main.ScreenToWorldPoint(previewPos);
+            previewBuild.transform.position = previewPos;
+
+            if (tilePos.x < 0 || tilePos.x > 13 || tilePos.y < 0 || tilePos.y > 8)
+                return;
+            if ((buildCommand == towerPlacementMode.tower && canvas.GetComponent<MapManager>().tileMap[(int) tilePos.x, (int) tilePos.y]==MapManager.Tile.field) ||
+                (buildCommand == towerPlacementMode.wall  && canvas.GetComponent<MapManager>().tileMap[(int) tilePos.x, (int) tilePos.y] == MapManager.Tile.road))
+                previewBuild.GetComponent<Image>().color = Color.green;
+            else
+                previewBuild.GetComponent<Image>().color = Color.red;
+            //if left click, build tower
+            if (Input.GetMouseButtonDown(0))
+            {
+                previewBuild.GetComponent<Image>().color = Color.white;
+
+                if (buildCommand == towerPlacementMode.tower)
+                    canvas.GetComponent<MapManager>().tileMap[(int)tilePos.x, (int)tilePos.y] = MapManager.Tile.tower;
+                if (buildCommand == towerPlacementMode.wall)
+                    canvas.GetComponent<MapManager>().tileMap[(int)tilePos.x, (int)tilePos.y] = MapManager.Tile.wall;
+
+                buildCommand = towerPlacementMode.off; //buildStructure(tilePos);
+                previewBuild = null;
+            }
         }
     }
 }
