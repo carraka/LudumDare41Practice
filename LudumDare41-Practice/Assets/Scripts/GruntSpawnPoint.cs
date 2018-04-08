@@ -33,12 +33,14 @@ public class GruntSpawnPoint : MonoBehaviour {
 	}
 
 	IEnumerator spawnTime() {
+		Debug.Log ("running spawnTime");
 		yield return new WaitForSeconds(timeToNextSpawn);
 		StartCoroutine (spawnTime ());
 		var grunt = (GameObject) Instantiate(Resources.Load("Prefabs/grunt"), PlaceTower.TiletoWorld(spawnPointTilePos), GetComponent<Transform>().rotation) ;
 		grunt.GetComponent<Grunt> ().tileTargetList = tileTargetList;
 		//grunt.GetComponent<Grunt> ().targetList = targetList;
 		grunt.GetComponent<Grunt> ().speed = gruntSpeed;
+		grunt.GetComponent<Grunt> ().hp = 2;
 
 	}
 

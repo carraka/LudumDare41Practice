@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 
 
     //Build costs
-    public int costTowerWood = 10;
+    public int costTowerWood = 1;
     public int costTowerStone = 5;
 
     public int costWallWood = 5;
