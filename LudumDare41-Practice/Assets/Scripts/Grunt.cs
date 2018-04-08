@@ -7,6 +7,9 @@ public class Grunt : MonoBehaviour {
 	public float timeToEat = 3f;
 	public float eatTimer = 3f;
 
+    private bool isAttacking = false;
+    private Wall attackTarget = null;
+
 	private GameManager GameManager;
 	private PlaceTower PlaceTower;
 	private Canvas canvas;
@@ -39,13 +42,38 @@ public class Grunt : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (isEating) {
-			eatTimer += Time.deltaTime;
-			if (eatTimer > timeToEat) {
-				eatTimer = 0f;
-				GameManager.EatVegetable ();
-			}
-		}
+        if (isEating)
+        {
+            eatTimer += Time.deltaTime;
+            if (eatTimer > timeToEat)
+            {
+                eatTimer = 0f;
+                GameManager.EatVegetable();
+            }
+        }
+        if (isAttacking)
+        {
+            if (attackTarget == null)
+            {
+                eatTimer = timeToEat;
+                isAttacking = false;
+            }
+            else
+            {
+
+                eatTimer += Time.deltaTime;
+                if (eatTimer > timeToEat)
+                {
+                    eatTimer = 0f;
+                    bool destroyed = attackTarget.attack();
+                    if (destroyed)
+                    {
+                        eatTimer = timeToEat;
+                        isAttacking = false;
+                    }
+                }
+            }
+        }
 	}
 
 	void FixedUpdate() {
@@ -81,17 +109,39 @@ public class Grunt : MonoBehaviour {
 					}
 
 				}
-			}
+
+                //script for collisions based on tile map
+                /*                Vector2 currentTileLocation = PlaceTower.getTile(transform.position);
+                currentTileLocation.y = 8 - currentTileLocation.y; //inverted coordinates on world objects vs mouse
+                                MapManager.Tile currentTileType;
+
+                                if (currentTileLocation.x < 0 || currentTileLocation.x > 13 || currentTileLocation.y < 0 || currentTileLocation.y > 8)
+                                    currentTileType = MapManager.Tile.unbuildable;
+                                else
+                                    currentTileType = canvas.GetComponent<MapManager>().tileMap[(int)currentTileLocation.x, (int)currentTileLocation.y];*/
+
+                if (isEating || isAttacking)
+                {
+                    rb.velocity = Vector3.Normalize(PlaceTower.TiletoWorld(tileTarget) - transform.position) * 0f;
+
+                } 
+            }
+
+
 		}//if
-
-
 	}
 
-	void OnTriggerEnter2D(Collider2D coll){
+	 void OnTriggerEnter2D(Collider2D coll){
 		//Debug.Log ("COLLIDED" + coll);
 		if (coll.gameObject.tag == "garden") {
 			isEating = true;
 		}
+        if (coll.gameObject.tag == "wall")
+        {
+            isAttacking = true;
+            attackTarget = coll.gameObject.GetComponent<Wall>();
 
-	}
+        }
+
+	} 
 }

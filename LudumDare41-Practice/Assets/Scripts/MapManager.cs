@@ -16,6 +16,7 @@ public class MapManager : MonoBehaviour {
 	void Update () {
         if (loadLevel)
         {
+
             //if (levelNumber == 1)
             tileMap = new Tile[,] {
                 { Tile.field,Tile.field,Tile.field,Tile.field,Tile.field,Tile.field,Tile.field,Tile.field,Tile.field },

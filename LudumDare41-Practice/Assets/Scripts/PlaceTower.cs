@@ -29,6 +29,9 @@ public class PlaceTower : MonoBehaviour {
         previewBuild = null;
         GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
+        wall.GetComponent<BoxCollider2D>().size = new Vector2(tileWidth, tileHeight);
+
+
         //buildCommand = towerPlacementMode.tower;
 
     }
@@ -50,7 +53,7 @@ public class PlaceTower : MonoBehaviour {
     }
 
     //converts mouse position to a tile location, with 0,0 being the top left tile, and 15,8 being the lower right tile
-    Vector2 getTile(Vector2 mousePos)
+    public Vector2 getTile(Vector2 mousePos)
     {
         Vector2 tileLocation;
 
@@ -73,7 +76,7 @@ public class PlaceTower : MonoBehaviour {
         {
             if (previewBuild != null)
             {
-                Destroy(previewBuild);
+                Destroy(previewBuild.gameObject);
                 previewBuild = null;
             }
         }
@@ -85,7 +88,11 @@ public class PlaceTower : MonoBehaviour {
                 if (buildCommand == towerPlacementMode.tower)
                     previewBuild = Instantiate(tower);
                 if (buildCommand == towerPlacementMode.wall)
+                {
                     previewBuild = Instantiate(wall);
+                    previewBuild.GetComponent<BoxCollider2D>().enabled = false;
+                }
+                
 
                 previewBuild.transform.SetParent(canvas.transform, true);
 
@@ -129,8 +136,12 @@ public class PlaceTower : MonoBehaviour {
                         canvas.GetComponent<MapManager>().tileMap[(int)tilePos.x, (int)tilePos.y] = MapManager.Tile.wall;  // put wall on tilemap
                         GameManager.wood -= GameManager.costWallWood;    //pay wood cost
                         GameManager.stone -= GameManager.costWallStone;  //pay stone cost
+                        previewBuild.GetComponent<BoxCollider2D>().enabled = true;
                     }
+
+
                     buildCommand = towerPlacementMode.off; //buildStructure(tilePos);
+          
                     previewBuild = null;
 
                     // play build sound effect here

@@ -39,5 +39,6 @@ public class BuildWallButton : MonoBehaviour {
         }
         else
             ; //play buzzer sound effect
+
     }
 }
