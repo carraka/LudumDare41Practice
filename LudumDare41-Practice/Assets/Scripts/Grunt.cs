@@ -33,7 +33,8 @@ public class Grunt : MonoBehaviour {
 		GameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		PlaceTower = GameObject.Find ("GameManager").GetComponent<PlaceTower> ();
 		canvas = GameObject.Find ("Canvas").GetComponent<Canvas> ();
-	}
+
+    }
 
 	
 	// Update is called once per frame

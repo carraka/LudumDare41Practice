@@ -9,15 +9,15 @@ public class GruntSpawnPoint : MonoBehaviour {
 
 	private PlaceTower PlaceTower;
 
-	public Vector2 spawnPointTilePos = new Vector2 (2, 2);
+	public Vector2 spawnPointTilePos = new Vector2 (1, -1);
 
 	public Vector2[] tileTargetList = new Vector2[] {
-		new Vector2 (2, 8),
-		new Vector2 (5, 8),
-		new Vector2 (5, 4),
-		new Vector2 (8, 4),
-		new Vector2 (8, 5),
-		new Vector2 (13, 5)
+		new Vector2 (1, 7),
+		new Vector2 (4, 7),
+		new Vector2 (4, 3),
+		new Vector2 (7, 3),
+		new Vector2 (7, 4),
+		new Vector2 (12, 4)
 	};
 
 	// Use this for initialization

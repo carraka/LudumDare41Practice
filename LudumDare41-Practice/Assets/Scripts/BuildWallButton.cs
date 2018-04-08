@@ -11,8 +11,8 @@ public class BuildWallButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Button btn = this.GetComponent<Button> ();
-		btn.onClick.AddListener (TaskOnClick);
+		thisButton = this.GetComponent<Button> ();
+		thisButton.onClick.AddListener (TaskOnClick);
 	}
 
 	void Awake () {
@@ -20,13 +20,24 @@ public class BuildWallButton : MonoBehaviour {
 
 	}
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        ColorBlock colorVar = thisButton.colors;
+        if (GameManager.wood >= GameManager.costWallWood && GameManager.stone >= GameManager.costWallStone)
+            colorVar.highlightedColor = new Color32(51, 255, 221, 255);
+        else
+            colorVar.highlightedColor = new Color32(255, 0, 0, 255);
+        thisButton.colors = colorVar;
+    }
 
-	}
-
-	void TaskOnClick(){
-        GameManager.GetComponent<PlaceTower>().buildCommand = PlaceTower.towerPlacementMode.wall;
-
-
+	void TaskOnClick()
+    {
+        if (GameManager.wood >= GameManager.costWallWood && GameManager.stone >= GameManager.costWallStone) // if adequate supplies
+        {
+            GameManager.GetComponent<PlaceTower>().buildCommand = PlaceTower.towerPlacementMode.wall; //set placement mode to wall
+            GameManager.GetComponent<GameManager>().PickVegetable("build"); //subtract 1 veggie from stock
+        }
+        else
+            ; //play buzzer sound effect
     }
 }

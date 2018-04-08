@@ -13,6 +13,14 @@ public class GameManager : MonoBehaviour {
 
 	public int unpicked = 0;
 
+
+    //Build costs
+    public int costTowerWood = 10;
+    public int costTowerStone = 5;
+
+    public int costWallWood = 5;
+    public int costWallStone = 10;
+
 	//Gameplay booleans
 	public bool woodProduction = true;
 	public bool stoneProduction = true;
@@ -85,7 +93,7 @@ public class GameManager : MonoBehaviour {
 
 		UpdateStatText ();
 
-		if (carrots + broccoli == 0) {
+		if (carrots <=0 && broccoli <= 0) {
 			//End the Game
 		}
 
@@ -173,11 +181,13 @@ public class GameManager : MonoBehaviour {
 		if (vegetable == "broc") {
 			broccoli++;
 			timeWood = baseTimeWood / broccoli;
+            woodProduction = true;
 		}
 
 		if (vegetable == "carrot") {
 			carrots++;
 			timeStone = baseTimeStone / carrots;
+            stoneProduction = true;
 		}	
 
 		unpicked--;
@@ -196,20 +206,29 @@ public class GameManager : MonoBehaviour {
 
 	public void EatVegetable()
 	{
-		if (carrots == 0 && broccoli > 0)
-			broccoli--;
-		else if (broccoli == 0 && carrots > 0)
-			carrots--;
-		else 
-		{
-			int num = Random.Range (0, 2);
-			if (num == 0)
-				broccoli--;
-			else
-				carrots--;
-		}
+        /*		if (carrots == 0 && broccoli > 0)
+                    broccoli--;
+                else if (broccoli == 0 && carrots > 0)
+                    carrots--;
+                else 
+                {
+                    int num = Random.Range (0, 2);
+                    if (num == 0)
+                        broccoli--;
+                    else
+                        carrots--;
+                }*/
 
-	
+        int num = Random.Range(0, broccoli + carrots);
+        if (num < broccoli)
+            broccoli--;
+        else
+            carrots--;
+        
+        if (broccoli <= 0)
+            woodProduction = false;
+        if (carrots <= 0)
+            stoneProduction = false;
 
 	}//EatVegetable()
 
