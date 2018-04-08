@@ -31,6 +31,10 @@ public class PlaceTower : MonoBehaviour {
 
         wall.GetComponent<BoxCollider2D>().size = new Vector2(tileWidth, tileHeight);
 
+        GameObject garden = GameObject.Find("Garden");
+        garden.GetComponent<BoxCollider2D>().size = new Vector2(3 * tileWidth, 3 * tileHeight);
+        garden.transform.position = TiletoWorld(new Vector2(12, 4));
+        //garden.transform.localScale = new Vector3(tileWidth / 300, tileHeight / 300, 1);
 
         //buildCommand = towerPlacementMode.tower;
 
@@ -86,7 +90,10 @@ public class PlaceTower : MonoBehaviour {
             if (previewBuild == null)
             {
                 if (buildCommand == towerPlacementMode.tower)
+                {
                     previewBuild = Instantiate(tower);
+                    previewBuild.GetComponent<Tower>().enabled = false;
+                }
                 if (buildCommand == towerPlacementMode.wall)
                 {
                     previewBuild = Instantiate(wall);
@@ -130,6 +137,7 @@ public class PlaceTower : MonoBehaviour {
                         canvas.GetComponent<MapManager>().tileMap[(int)tilePos.x, (int)tilePos.y] = MapManager.Tile.tower;  // put tower on tilemap
                         GameManager.wood -= GameManager.costTowerWood;    //pay wood cost
                         GameManager.stone -= GameManager.costTowerStone;  //pay stone cost
+                        previewBuild.GetComponent<Tower>().enabled = true;
                     }
                     if (buildCommand == towerPlacementMode.wall)
                     {
