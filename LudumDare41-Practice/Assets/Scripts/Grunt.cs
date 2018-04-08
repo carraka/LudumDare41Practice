@@ -8,6 +8,7 @@ public class Grunt : MonoBehaviour {
 	public float eatTimer = 3f;
 
 	private GameManager GameManager;
+	private Canvas canvas;
 
 	public Transform[] targetList;// =new Transform[];
 	private Transform target;
@@ -21,13 +22,13 @@ public class Grunt : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		target = targetList[nextTargetIndex];
-
+		this.transform.SetParent (canvas.transform);
 		initialRotation = Quaternion.Euler (new Vector3 (this.transform.localRotation.eulerAngles.x, this.transform.localRotation.eulerAngles.y, this.transform.localRotation.eulerAngles.z));
 	}
 
 	void Awake(){
 		GameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
-
+		canvas = GameObject.Find ("Canvas").GetComponent<Canvas> ();
 	}
 
 	
