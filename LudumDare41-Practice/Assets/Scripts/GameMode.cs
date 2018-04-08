@@ -86,14 +86,20 @@ public class GameMode : MonoBehaviour {
 
                 previewBuild.gameObject.transform.localScale = scaleTower;
             }
-            //find tile x,y
-            //move sprite to tile x,y
+            
+            //move sprite to tile x,y            
             Vector3 previewPos = new Vector3(tilePos.x * tileWidth, Camera.main.pixelHeight - tilePos.y * tileHeight - tileHeight);
-            //previewPos = Camera.main.ScreenToWorldPoint(previewPos);
+
+            //if out of screen, make preview invisible and exit before checking map tile array
+            if (tilePos.x < 0 || tilePos.x > 13 || tilePos.y < 0 || tilePos.y > 8)
+            {
+                previewBuild.GetComponent<Image>().color = Color.clear;
+                return;
+            }
+
             previewBuild.transform.position = previewPos;
 
-            if (tilePos.x < 0 || tilePos.x > 13 || tilePos.y < 0 || tilePos.y > 8)
-                return;
+
             if ((buildCommand == towerPlacementMode.tower && canvas.GetComponent<MapManager>().tileMap[(int) tilePos.x, (int) tilePos.y]==MapManager.Tile.field) ||
                 (buildCommand == towerPlacementMode.wall  && canvas.GetComponent<MapManager>().tileMap[(int) tilePos.x, (int) tilePos.y] == MapManager.Tile.road))
                 previewBuild.GetComponent<Image>().color = Color.green;
