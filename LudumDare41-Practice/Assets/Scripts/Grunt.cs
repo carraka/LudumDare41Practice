@@ -59,6 +59,7 @@ public class Grunt : MonoBehaviour {
 				Vector3 targ = PlaceTower.TiletoWorld(tileTarget);
 				targ.z = 0f;
 
+
 				Vector3 objectPos = transform.position;
 				targ.x = targ.x - objectPos.x;
 				targ.y = targ.y - objectPos.y;
