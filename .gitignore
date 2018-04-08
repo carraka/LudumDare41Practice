@@ -37,6 +37,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+LudumDare41-Practice/.vs/LudumDare41-Practice/v15/Server/sqlite3/db.lock
+LudumDare41-Practice/.vs/LudumDare41-Practice/v15/Server/sqlite3/storage.ide
+LudumDare41-Practice/.vs/LudumDare41-Practice/v15/Server/sqlite3/storage.ide-shm
+LudumDare41-Practice/.vs/LudumDare41-Practice/v15/Server/sqlite3/storage.ide-wal
 *.lock
 *.ide
 *.ide-shm
@@ -131,3 +135,7 @@ LudumDare41-Practice/Library/ScriptAssemblies/BuiltinAssemblies.stamp
 LudumDare41-Practice/Library/metadata/00/00000000000000004000000000000000
 LudumDare41-Practice/Library/InspectorExpandedItems.asset
 LudumDare41-Practice/Library/assetDatabase3
+LudumDare41-Practice/Library/assetDatabase3
+LudumDare41-Practice/Library/InspectorExpandedItems.asset
+LudumDare41-Practice/Library/metadata/00/00000000000000004000000000000000
+LudumDare41-Practice/Library/shadercompiler-UnityShaderCompiler.exe0.log
