@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-    //Resources
-    public int wood = 0;
-    public int stone = 0;
-    public int carrots = 10;
-    public int broccoli = 10;
+	public bool win = false;
+
+	public int wood = 0;
+	public int stone = 0;
+	public int carrots = 10;
+	public int broccoli = 10; 
 
     public int unpicked = 0;
 
