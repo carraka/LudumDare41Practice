@@ -38,7 +38,11 @@ public class Bullet : MonoBehaviour {
 
 					transform.position = Vector3.MoveTowards(transform.position, origTarget.transform.position, speed);
 
-			}		
+			}
+			else
+			{
+				Destroy(this.gameObject);
+			}
 		}
 		catch(MissingReferenceException e) {}
 

@@ -104,7 +104,7 @@ public class Tower : MonoBehaviour
 
 					try {
 
-						while (targetList.Peek () != null && !targetList.Peek ().GetComponent<Grunt> ().inRange) {
+						if (targetList.Peek () != null && !targetList.Peek ().GetComponent<Grunt> ().inRange) {
 							targetList.Dequeue ();
 						}
 				 

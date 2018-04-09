@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
 	public bool gameOver = false;
+	public bool endingPlayed = false;
 	public GameObject EndScreen;
 
 
@@ -124,19 +125,24 @@ public class GameManager : MonoBehaviour {
 
         UpdateStatText();
 
-        if (carrots <= 0 && broccoli <= 0) {
-			gameOver = true;
-			EndScreen.SetActive(true);
-			EndScreen.GetComponent<EndGame>().PlayEnding (true);
+		if (!endingPlayed){
+			if (carrots <= 0 && broccoli <= 0) {
+				gameOver = true;
+				EndScreen.SetActive(true);
+				EndScreen.GetComponent<EndGame>().PlayEnding (false);
+				endingPlayed = true;
 
-        }
+			}
 
-		else if (gameOver)
-		{
-			EndScreen.SetActive(true);
+			else if (gameOver)
+			{
+				EndScreen.SetActive(true);
+				EndScreen.GetComponent<EndGame>().PlayEnding (true);
+				endingPlayed = true;
 
-			EndScreen.GetComponent<EndGame>().PlayEnding (false);
+			}
 		}
+        
 
         GatherResources();
 
@@ -338,7 +344,7 @@ public class GameManager : MonoBehaviour {
 	{
 
 		AudioSource audio = gameObject.AddComponent < AudioSource > ();
-		//audio.PlayOneShot ((AudioClip)Resources.Load ("Audio/SoundFX/ldp2_screams", 1f));
+		audio.PlayOneShot ((AudioClip)Resources.Load ("Audio/SoundFX/ldp2_screams_short"));
 
         /*		if (carrots == 0 && broccoli > 0)
                     broccoli--;

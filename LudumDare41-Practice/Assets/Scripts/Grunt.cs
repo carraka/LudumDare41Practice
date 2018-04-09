@@ -7,7 +7,7 @@ public class Grunt : MonoBehaviour {
 	public float timeToEat = 3f;
 	public float eatTimer = 3f;
 
-	public int hp = 2;
+	public int hp = 1;
 
     private bool isAttacking = false;
     private Wall attackTarget = null;
