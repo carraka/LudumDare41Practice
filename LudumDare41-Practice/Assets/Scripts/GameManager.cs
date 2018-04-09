@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-	public bool win = false;
+	public bool gameOver = false;
+	private EndGame EndScreen;
+
 
 	public int wood = 0;
 	public int stone = 0;
@@ -110,6 +112,10 @@ public class GameManager : MonoBehaviour {
         buildEggplantIcon = GameObject.Find("BuildEggplantIcon").GetComponent<Image>();
         buildEggplantText = GameObject.Find("BuildEggplantText").GetComponent<Text>();
         infoText = GameObject.Find("InfoText").GetComponent<Text>();
+
+		//End Game
+		EndScreen = GameObject.Find ("EndScreen").GetComponent<EndGame> ();
+
     }
 
 
@@ -119,8 +125,14 @@ public class GameManager : MonoBehaviour {
         UpdateStatText();
 
         if (carrots <= 0 && broccoli <= 0) {
-            //End the Game
+			gameOver = true;
+			EndScreen.PlayEnding (false);
         }
+
+		else if (gameOver)
+		{
+			EndScreen.PlayEnding (true);
+		}
 
         GatherResources();
 

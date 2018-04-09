@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class DestroyWhenGameEnds : MonoBehaviour {
 
-	private EndGame EndScreen;
+	private GameManager GameManager;
 	// Use this for initialization
 	void Start () {
 
-		EndScreen = GameObject.Find ("EndScreen").GetComponent<EndGame> ();
+		GameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (EndScreen.gameIsOver)
+		if (GameManager.gameOver)
 		{
 			Destroy (this.gameObject);
 		}

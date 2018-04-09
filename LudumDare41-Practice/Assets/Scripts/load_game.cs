@@ -28,7 +28,7 @@ public class load_game : MonoBehaviour {
 
 	public void load_level() {
 		buttonSound.Play ();
-		SceneManager.LoadScene("ludum40_office");
+		SceneManager.LoadScene("level1");
 		
 	}
 
