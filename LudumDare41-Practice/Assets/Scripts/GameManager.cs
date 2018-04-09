@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
 	public bool gameOver = false;
-	private EndGame EndScreen;
+	public GameObject EndScreen;
 
 
 	public int wood = 0;
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour {
         infoText = GameObject.Find("InfoText").GetComponent<Text>();
 
 		//End Game
-		EndScreen = GameObject.Find ("EndScreen").GetComponent<EndGame> ();
+		//EndScreen = GameObject.Find ("EndScreen").GetComponent<EndGame> ();
 
     }
 
@@ -126,12 +126,16 @@ public class GameManager : MonoBehaviour {
 
         if (carrots <= 0 && broccoli <= 0) {
 			gameOver = true;
-			EndScreen.PlayEnding (false);
+			EndScreen.SetActive(true);
+			EndScreen.GetComponent<EndGame>().PlayEnding (true);
+
         }
 
 		else if (gameOver)
 		{
-			EndScreen.PlayEnding (true);
+			EndScreen.SetActive(true);
+
+			EndScreen.GetComponent<EndGame>().PlayEnding (false);
 		}
 
         GatherResources();
@@ -296,24 +300,31 @@ public class GameManager : MonoBehaviour {
 
 	public void PickVegetable(string vegetable)
 	{
-		
+		AudioSource audio = gameObject.AddComponent < AudioSource > ();
+
 		if (vegetable == "broc") {
 			broccoli++;
 			timeWood = baseTimeWood / broccoli;
             woodProduction = true;
+			audio.PlayOneShot ((AudioClip)Resources.Load ("veg_pull"));
+
 		}
 
-		if (vegetable == "carrot") {
+		else if (vegetable == "carrot") {
 			carrots++;
 			timeStone = baseTimeStone / carrots;
             stoneProduction = true;
-		}	
+			audio.PlayOneShot ((AudioClip)Resources.Load ("veg_pull"));
+
+		}
+		else if (vegetable == "build")
+		{
+			audio.PlayOneShot ((AudioClip)Resources.Load ("Audio/SoundFX/ldp2_building_ready_alt"));
+		}
 
 		unpicked--;
 
 		//play sfx
-		AudioSource audio = gameObject.AddComponent < AudioSource > ();
-		audio.PlayOneShot ((AudioClip)Resources.Load ("veg_pull"));
 
 		//hide choice box and buttons when all vegetables are picked
 		if (unpicked <= 0)
@@ -325,6 +336,10 @@ public class GameManager : MonoBehaviour {
 
 	public void EatVegetable()
 	{
+
+		AudioSource audio = gameObject.AddComponent < AudioSource > ();
+		//audio.PlayOneShot ((AudioClip)Resources.Load ("Audio/SoundFX/ldp2_screams", 1f));
+
         /*		if (carrots == 0 && broccoli > 0)
                     broccoli--;
                 else if (broccoli == 0 && carrots > 0)

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class EndGame : MonoBehaviour {
 
 	/*
-	 * Need to destroy all sheep, towers, and bullets upon win or loss!!!
 	 * 
 	To run end game script for a win: PlayEnding(true);
 	To run end game script for a loos: PlayEnding(false);

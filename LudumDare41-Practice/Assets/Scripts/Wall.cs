@@ -25,6 +25,9 @@ public class Wall : MonoBehaviour {
     {
         Debug.Log(currentHP);
         currentHP -= damage;
+		AudioSource audio = gameObject.AddComponent < AudioSource > ();
+		audio.PlayOneShot ((AudioClip)Resources.Load ("Audio/SoundFX/ldp2_stonewall_damage"));
+
 
         if (currentHP <= 0)
         {

@@ -47,6 +47,9 @@ public class Grunt : MonoBehaviour {
 
 		if (hp <= 0)
 		{
+			AudioSource audio = gameObject.AddComponent < AudioSource > ();
+			audio.PlayOneShot ((AudioClip)Resources.Load ("Audio/SoundFX/ldp2_sheep_die"));
+
 			Destroy (this.gameObject);
 		}
         if (isEating)
@@ -91,7 +94,7 @@ public class Grunt : MonoBehaviour {
 				rb.velocity = Vector3.Normalize (PlaceTower.TiletoWorld(tileTarget) - transform.position) * speed;
 				float distance = Vector3.Distance (transform.position, PlaceTower.TiletoWorld(tileTarget));
 
-				Debug.Log (this.transform.localRotation);
+				//Debug.Log (this.transform.localRotation);
 				Vector3 targ = PlaceTower.TiletoWorld(tileTarget);
 				targ.z = 0f;
 
@@ -102,7 +105,7 @@ public class Grunt : MonoBehaviour {
 
 				float angle = Mathf.Atan2 (targ.y, targ.x) * Mathf.Rad2Deg;
 				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, angle - 90));
-				Debug.Log (this.transform.localRotation);
+				//Debug.Log (this.transform.localRotation);
 
 				if (distance < 20f) {
 					++nextTargetIndex;

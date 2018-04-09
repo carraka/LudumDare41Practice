@@ -115,7 +115,7 @@ public class Tower : MonoBehaviour
 							power-=2;
 							GameObject bullet = (GameObject)Instantiate (Resources.Load ("Prefabs/bullet"), GetComponent<Transform> ().position, GetComponent<Transform> ().rotation);
 							audio [0].pitch = 0.5f;
-							audio[0].PlayOneShot((AudioClip)Resources.Load("SoundFX/ldp2_cannon"), 1f);
+							audio[0].PlayOneShot((AudioClip)Resources.Load("Audio/SoundFX/ldp2_cannon"), 1f);
 
 							//bullet.GetComponent<Rigidbody2D> ().velocity = transform.TransformDirection(target.transform.position); //ShootUtil.firingVector (transform, target, bulletSpeed);
 							bullet.transform.position = Vector3.MoveTowards (bullet.transform.position, target.transform.position, bulletSpeed);
